@@ -1,39 +1,33 @@
-name: React App Deploy to Surge
-
+name: React App Build and Deploy to Surge
 on:
   push:
     branches:
-      - main
+      - master  # or 'main', depending on your setup
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the repository
-      - name: Check out code
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      # Step 2: Set up Node.js
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
-          node-version: 18
+          node-version: '18'
 
-      # Step 3: Install dependencies
+      # Set the correct working directory
       - name: Install dependencies
         run: yarn install
-        working-directory: ./your-subdirectory-name
+        working-directory: ./project001
 
-      # Step 4: Build the React App
-      - name: Build React App
+      - name: Build React app
         run: yarn build
-        working-directory: ./your-subdirectory-name
+        working-directory: ./project001
 
-      # Step 5: Install Surge
       - name: Install Surge
         run: npm install --global surge
 
-      # Step 6: Deploy to Surge
       - name: Deploy to Surge
-        run: surge ./your-subdirectory-name/build project001.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+        run: surge ./build project001.surge.sh --token ${{ secrets.SURGE_TOKEN }}
