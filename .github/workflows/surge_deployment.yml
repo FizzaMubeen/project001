@@ -1,20 +1,39 @@
-steps:
-  - name: Check out code
-    uses: actions/checkout@v3
+name: React App Deploy to Surge
 
-  - name: Set up Node.js
-    uses: actions/setup-node@v3
-    with:
-      node-version: 18
+on:
+  push:
+    branches:
+      - main
 
-  - name: Install dependencies
-    run: yarn install
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-  - name: Build React App
-    run: yarn build
+    steps:
+      # Step 1: Check out the repository
+      - name: Check out code
+        uses: actions/checkout@v3
 
-  - name: Install Surge
-    run: npm install --global surge
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
-  - name: Deploy to Surge
-    run: surge ./build project001.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: yarn install
+        working-directory: ./your-subdirectory-name
+
+      # Step 4: Build the React App
+      - name: Build React App
+        run: yarn build
+        working-directory: ./your-subdirectory-name
+
+      # Step 5: Install Surge
+      - name: Install Surge
+        run: npm install --global surge
+
+      # Step 6: Deploy to Surge
+      - name: Deploy to Surge
+        run: surge ./your-subdirectory-name/build project001.surge.sh --token ${{ secrets.SURGE_TOKEN }}
