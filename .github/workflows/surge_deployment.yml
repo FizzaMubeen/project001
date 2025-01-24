@@ -1,12 +1,18 @@
 name: React App Deploy to Surge
 
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
       # Step 1: Check out code
-      - uses: actions/checkout@v3
+      - name: Check out code
+        uses: actions/checkout@v3
 
       # Step 2: Set up Node.js
       - name: Set up Node.js
@@ -30,4 +36,4 @@ jobs:
 
       # Step 6: Deploy to Surge
       - name: Deploy to Surge
-        run: surge ./build project001.surge.sh ${{ secrets.SURGE_TOKEN }}
+        run: surge ./build project001.surge.sh --token ${{ secrets.SURGE_TOKEN }}
