@@ -25,10 +25,12 @@ jobs:
         uses: borales/actions-yarn@v4.0.0
         with:
           cmd: install
+        working-directory: ./project001
 
       # Step 4: Build the React App
       - name: Build React App
         run: yarn build
+        working-directory: ./project001
 
       # Step 5: Install Surge
       - name: Install Surge
@@ -36,4 +38,4 @@ jobs:
 
       # Step 6: Deploy to Surge
       - name: Deploy to Surge
-        run: surge ./build project001.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+        run: surge ./project001/build project001.surge.sh --token ${{ secrets.SURGE_TOKEN }}
